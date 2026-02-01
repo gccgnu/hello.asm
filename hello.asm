@@ -1,27 +1,22 @@
 ; Filename: hello.asm
-; Author: s0lst1c3
+; Author: s0lst1c3 (Forked by GCCGNU for x86_64)
 ; Description: writes "Hello world!" on the screen using only system calls.
 
 global _start
 
 section .data
-	
-	align 2
-	hello: db 'Hello world!', 0xa
-	helloLen: equ $-hello
-
-section .bss
+	msg: db "Hello, World!", 0xA
 
 section .text
+_start:
+	; write(STDOUT, "Hello, World", 14)
+	mov rax, 1
+	mov rdi, 1
+	mov rsi, msg
+	mov rdx, 14 ; Len of msg
+	syscall
 
-	_start:
-
-	mov eax, 0x4
-	mov ebx, 0x1
-	mov ecx, hello
-	mov edx, helloLen
-	int 0x80
-
-	mov eax, 0x1
-	xor ebx, ebx
-	int 0x80
+	; exit(0)
+	mov rax, 60
+	xor rdi, rdi
+	syscall
