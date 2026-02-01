@@ -6,17 +6,18 @@ global _start
 
 section .data
 	msg: db "Hello, World!", 0xA
+	msgLen: equ $-msg
 
 section .text
 _start:
 	; write(STDOUT, "Hello, World", 14)
 	mov rax, 1
-	mov rdi, 1
-	mov rsi, msg
-	mov rdx, 14 ; Len of msg
+	mov rdi, 1            ; fd
+	mov rsi, msg          ; buf
+	mov rdx, msgLen       ; count
 	syscall
 
 	; exit(0)
-	mov rax, 60
-	xor rdi, rdi
+	mov rax, 60           
+	xor rdi, rdi          ; exit code
 	syscall
